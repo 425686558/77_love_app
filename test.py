@@ -1,39 +1,29 @@
 #!/usr/bin/python3
 #encoding=utf8
-import tkinter
 from tkinter import *
-class window:
+import math
+class LWindow(Tk):
+	__screen_width = 0
+	__screen_height = 0
 	__width = 0
 	__height = 0
-	window = tkinter.Tk()
-	__arg = {
-	"int":lambda self,tp:self.window.winfo_screenwidth() if tp == 0 else tp,
-	"float":lambda self,tp:self.window.winfo_screenwidth() if self == 0 else int(math.ceil(tp * self.__window.winfo_screenwidth()))}
+	__title = ""
+	__arg = {"int":lambda sc,arg:sc if arg == 0 else arg,
+		 "float":lambda sc,arg:sc if arg == 0 else int(math.ceil(arg * sc))}
+	__arg_process = lambda self,sc,arg:self.__arg[type(arg).__name__](sc,arg)
 	
-	def __init__(self,width = 0,height = 0):
-		self.__width = self.__arg[type(width).__name__](self,width)
-#		if (type (width) == int):
-#			if (0 == width):
-#				self.__width = self.__window.winfo_screenwidth()
-#			else:
-#				self.__width = width
-#		else:
-#			raise Exception("width should be integer")
-
-		if (type (height) == int):
-			if (0 == height):
-				self.__height = self.window.winfo_screenheight()
-			else:
-				self.__height = height
-		else:
-			raise Exception("height should be integer")
+	def __init__(self, width = 0, height = 0,title = ""):
+		super(LWindow, self).__init__()
+		self.__screen_width = self.winfo_screenwidth()
+		self.__screen_height = self.winfo_screenheight()
+		self.__width = self.__arg_process(self.__screen_width, width)
+		self.__height = self.__arg_process(self.__screen_height, height)
+		self.__title = title
+		self.title(self.__title)
+		self.geometry("%dx%d+%d+%d" % (self.__width, self.__height, 0, 0))
+		self.mainloop()
 
 	def size(self):
-		print("width:%d height:%d" %(self.__width,self.__height))
+		print("width:%d height:%d" %(self.__screen_width,self.__screen_height))
 
-a = window()
-a.size()
-#top = tkinter.Tk()
-#top.title("吃饭啦")
-#Frame(height = 600,width = 800).pack()  
-#top.mainloop()
+a = LWindow(0.5,0.5,"hello")
