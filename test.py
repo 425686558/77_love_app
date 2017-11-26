@@ -21,9 +21,15 @@ class LWindow(Tk):
 		self.__title = title
 		self.title(self.__title)
 		self.geometry("%dx%d+%d+%d" % (self.__width, self.__height, 0, 0))
-		self.mainloop()
 
 	def size(self):
 		print("width:%d height:%d" %(self.__screen_width,self.__screen_height))
 
-a = LWindow(0.5,0.5,"hello")
+MainWindow = LWindow(0.5,0.5,"hello")
+MainBar = Menu(MainWindow, tearoff=False)
+FileMenu = Menu(MainBar,tearoff=False)
+FileMenu.add_command(label = "Open file")
+FileMenu.add_command(label = "Exit")
+MainBar.add_cascade(label = "File", menu = FileMenu)
+MainWindow.config(menu = MainBar)
+MainWindow.mainloop()
